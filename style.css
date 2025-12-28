@@ -1,0 +1,43 @@
+@-moz-document url-prefix("about:preferences") {
+  .zen-keyboard-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+
+    .zen-keyboard-search {
+      flex: 1;
+      min-width: 200px;
+      padding-left: 34px !important;
+      background-repeat: no-repeat;
+      background-position: 8px center;
+      background-size: 16px 16px;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="%239b9a9a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m21 21l-4.343-4.343m0 0A8 8 0 1 0 5.343 5.343a8 8 0 0 0 11.314 11.314"/></svg>');
+    }
+
+    .zen-keyboard-filter-button {
+      cursor: pointer;
+    }
+  }
+
+  .zen-keyboard-filter-popover {
+    position: absolute;
+    background-color: var(--in-content-box-background, #fff);
+    border: 1px solid var(--in-content-border-color, #ccc);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    max-height: 200px;
+    overflow-y: auto;
+    min-width: 220px;
+    .zen-keyboard-filter-checkbox {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+  }
+}
