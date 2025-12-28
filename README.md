@@ -1,4 +1,4 @@
-<h1 align="center">Zen Browser Keyboard Shortcuts Search</h1>
+<h1 align="center">Test to create new pull request, pull request should be automotically closed</h1>
 <div align="center">
     <a href="https://zen-browser.app/">
         <img width="240" alt="zen-badge-dark" src="https://raw.githubusercontent.com/heyitszenithyt/zen-browser-badges/fb14dcd72694b7176d141c774629df76af87514e/light/zen-badge-light.png" />
