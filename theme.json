@@ -16,7 +16,7 @@
     "zen"
   ],
   "style": {
-    "content": "https://raw.githubusercontent.com/Vertex-Mods/Search-Keyboard-Shortcuts/main/style.css"
+    "content": "style.css"
   },
   "js": true,
   "readme": "https://raw.githubusercontent.com/Vertex-Mods/Search-Keyboard-Shortcuts/main/README.md",
