@@ -1,10 +1,11 @@
 {
   "id": "settings-shortcuts-search",
+  "homepage": "https://github.com/Vertex-Mods/Search-Keyboard-Shortcuts",
   "name": "Search Keyboard shortcuts",
   "description": "Lightweight script to add search and filter options in keyboard shortcuts in settings",
   "author": "Bibek Bhusal",
   "version": "1.1.1b",
-  "updatedAt": "2026-01-09",
+  "updatedAt": "2026-01-15",
   "tags": [
     "Search",
     "sine",
@@ -16,7 +17,7 @@
     "zen"
   ],
   "style": {
-    "content": "https://raw.githubusercontent.com/Vertex-Mods/Search-Keyboard-Shortcuts/main/style.css"
+    "content": "style.css"
   },
   "scripts": {
     "settings-shortcuts-search.uc.js": {

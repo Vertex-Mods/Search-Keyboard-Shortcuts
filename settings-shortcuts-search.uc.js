@@ -3,7 +3,7 @@
 // @description     Lightweight script to add search and filter options in keyboard shortcuts in settings
 // @author          Bibek Bhusal
 // @version         1.1.1b
-// @lastUpdated     2026-01-09
+// @lastUpdated     2026-01-15
 // @ignorecache
 // @homepage        https://github.com/Vertex-Mods/Search-Keyboard-Shortcuts
 // @include         about:preferences*
