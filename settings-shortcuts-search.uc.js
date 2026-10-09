@@ -2,8 +2,8 @@
 // @name            Search Keyboard shortcuts
 // @description     Lightweight script to add search and filter options in keyboard shortcuts in settings
 // @author          Bibek Bhusal
-// @version         1.1.5
-// @lastUpdated     2026-09-07
+// @version         1.1.6
+// @lastUpdated     2026-10-09
 // @ignorecache
 // @homepage        https://github.com/Vertex-Mods/Search-Keyboard-Shortcuts
 // @include         about:preferences*
@@ -28,6 +28,46 @@
       element = element.head.firstChild;
     return element;
   };
+
+  // utils/fuzzy.js
+  function calculateFuzzyScore(target, query) {
+    if (!target || !query)
+      return 0;
+    let targetLower = target.toLowerCase(), queryLower = query.toLowerCase(), targetLen = target.length, queryLen = query.length;
+    if (queryLen > targetLen)
+      return 0;
+    if (queryLen === 0)
+      return 0;
+    if (targetLower === queryLower)
+      return 200;
+    if (targetLower.startsWith(queryLower))
+      return 100 + queryLen;
+    if (targetLower.split(/[\s-_]+/).map((word) => word[0]).join("") === queryLower)
+      return 90 + queryLen;
+    let score = 0, queryIndex = 0, lastMatchIndex = -1, consecutiveMatches = 0;
+    for (let targetIndex = 0;targetIndex < targetLen; targetIndex++)
+      if (queryIndex < queryLen && targetLower[targetIndex] === queryLower[queryIndex]) {
+        let bonus = 10;
+        if (targetIndex === 0 || [" ", "-", "_"].includes(targetLower[targetIndex - 1]))
+          bonus += 15;
+        if (lastMatchIndex === targetIndex - 1)
+          consecutiveMatches++, bonus += 20 * consecutiveMatches;
+        else
+          consecutiveMatches = 0;
+        if (lastMatchIndex !== -1) {
+          let distance = targetIndex - lastMatchIndex;
+          bonus -= Math.min(distance - 1, 10);
+        }
+        score += bonus, lastMatchIndex = targetIndex, queryIndex++;
+      }
+    return queryIndex === queryLen ? score : 0;
+  }
+  function fuzzyScore(target, query) {
+    let cleanQuery = (query || "").trim();
+    if (!cleanQuery)
+      return 1;
+    return calculateFuzzyScore(target || "", cleanQuery);
+  }
 
   // settings-shortcuts-search/index.js
   function _setupKeymapSearchUI(groupbox) {
@@ -65,12 +105,12 @@
         filterPopover.style.display = "none";
     });
     function applyFilters() {
-      let searchValue = searchInput.value.toLowerCase(), visibleGroups = /* @__PURE__ */ new Set;
+      let searchValue = searchInput.value.trim(), visibleGroups = /* @__PURE__ */ new Set;
       for (let groupId in groupCheckboxes)
         if (groupCheckboxes[groupId].checked)
           visibleGroups.add(groupId.replace("zenCKSOption-group-", ""));
       groupbox.querySelectorAll("hbox.zenCKSOption").forEach((option) => {
-        let input = option.querySelector(".zenCKSOption-input"), shortcutName = option.querySelector(".zenCKSOption-label")?.textContent?.toLowerCase() || "", group = input?.getAttribute("data-group"), matchesSearch = shortcutName.includes(searchValue), matchesGroup = visibleGroups.has(group);
+        let input = option.querySelector(".zenCKSOption-input"), shortcutName = option.querySelector(".zenCKSOption-label")?.textContent || "", group = input?.getAttribute("data-group"), matchesSearch = fuzzyScore(shortcutName, searchValue) > 0, matchesGroup = visibleGroups.has(group);
         option.style.display = matchesSearch && matchesGroup ? "" : "none";
       }), groupHeadings.forEach((h2) => {
         let groupId = h2.getAttribute("data-group").replace("zenCKSOption-group-", ""), anyVisible = [
